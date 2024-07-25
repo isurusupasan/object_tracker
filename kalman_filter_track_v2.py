@@ -87,7 +87,7 @@ class Tracker:
         cv2.rectangle(frame, (x_pred - w // 2, y_pred - h // 2), (x_pred + w // 2, y_pred + h // 2), (0, 255, 0), 2)
 
 # Open the video file.
-cap = cv2.VideoCapture('sample_video.mp4')
+cap = cv2.VideoCapture('sample_video_1.mp4')
 
 # Create the KNN background subtractor.
 bg_subtractor = cv2.createBackgroundSubtractorKNN()
