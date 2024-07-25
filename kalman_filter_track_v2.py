@@ -167,7 +167,7 @@ while True:
         senator.update(frame, hsv_frame)
 
     # Display the frame with senators being tracked.
-    cv2.imshow('Senators Tracked', hsv_frame)
+    cv2.imshow('Senators Tracked', frame)
 
     # Wait for the user to press a key (110ms delay).
     k = cv2.waitKey(110)
