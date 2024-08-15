@@ -152,12 +152,6 @@ while True:
     frame_number  = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
     set_frame_number = frame_number-1
     # print('Frame_number', frame_number)
-    v_x =[]
-    v_y =[]
-    v_w =[]
-    v_h =[]
-
-
 
     #json file check
     for i in range(df_len):
@@ -166,21 +160,13 @@ while True:
         # print(df_sorted.iloc[i,0])
         if set_frame_number ==df_sorted.iloc[i,0]:
             # print(df_sorted.iloc[i,0])
-            # print('fuck', i)
-            
-            v_x1= int(df_sorted.iloc[i,1][0])
-            v_x.append(v_x1)
-            v_y1= int(df_sorted.iloc[i,1][1])
-            v_y.append(v_y1)
-            v_w1= int(df_sorted.iloc[i,1][2])
-            v_w.append(v_w1)
-            v_h1= int(df_sorted.iloc[i,1][3])
-            v_h.append(v_h1)
+            print('fuck', i)
+            v_x= df_sorted.iloc[i,1][0]
+            v_y= df_sorted.iloc[i,1][1]
+            v_w= df_sorted.iloc[i,1][2]
+            v_h= df_sorted.iloc[i,1][3]
 
-    # print('x:', i, v_x)
-    # print('y:', i, v_y)
-    # print('w:', i, v_w)
-    # print('h:', i, v_h)
+            print(v_x, v_y, v_w, v_h)
 
 
     # If there are no more frames to read, break out of the loop.
@@ -212,32 +198,27 @@ while True:
     # If there are no senators being tracked yet, create new trackers.
     should_initialize_senators = len(senators) == 0
     id = 0
-    for c in range(len(v_x)):
+    for c in contours:
         # Check if the contour area is larger than a threshold.
-        #if cv2.contourArea(c) > 500:
+        if cv2.contourArea(c) > 500:
             # Get the bounding rectangle coordinates.
-            # (x, y, w, h) = cv2.boundingRect(c)
-        x = v_x[c]
-        y = v_y[c]
-        w = v_w[c]
-        h = v_h[c]
+            (x, y, w, h) = cv2.boundingRect(c)
             
             #midpoints of the contours
-        X=(x+w)/2
-        Y=(y+h)/2
-        x1 = int(x-(w/2))
-        y1 = int(y-(h/2))
+            X=(x+w)/2
+            Y=(y+h)/2
+
             # Draw a rectangle around the contour.
-        cv2.rectangle(frame, (x1, y1), (x + w, y + h), (255, 0, 0), 1)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 1)
             # Convert ID into str
-        id_str = str(id)
-        cv2.putText(frame, id_str , (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+            id_str = str(id)
+            cv2.putText(frame, id_str , (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
 
             # If no senators are being tracked yet, create a new tracker for each contour.
-        if should_initialize_senators:
+            if should_initialize_senators:
                 senators.append(Tracker(id, hsv_frame, (x, y, w, h)))    
 
-        id += 1
+            id += 1
 
     # Update the tracking of each senator.
     for senator in senators:

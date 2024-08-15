@@ -42,7 +42,8 @@ def draw_hsv(flow):
 
 
 #cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture('sample_video_1.mp4')
+cap = cv2.VideoCapture('cricket_video.mp4')
+
 
 suc, prev = cap.read()
 prevgray = cv2.cvtColor(prev, cv2.COLOR_BGR2GRAY)
@@ -68,6 +69,7 @@ while True:
     fps = 1 / (end-start)
 
     print(f"{fps:.2f} FPS")
+    print("Number :", int(cap.get(cv2.CAP_PROP_POS_FRAMES)))
 
     cv2.imshow('flow', draw_flow(gray, flow))
     cv2.imshow('flow HSV', draw_hsv(flow))
